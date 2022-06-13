@@ -19,7 +19,22 @@
 import csv
 import itertools
 
+"""
+    The budget class reads the budget spreadsheet and
+    and compares those values to those in the cash flow
+
+    methods:
+    - read budget csv
+    - list primary categories
+    - list secondary categories
+    - sum primary category goals
+    - diff categories with cash flow
+"""
 class Budget:
+    pass
+
+
+class CashFlow:
     def __init__(self) -> None:
         self.cashFlow = self.readCash('Cash-flow-2022-05-29-to-2022-07-02.csv')
         self.categories = self.makeCategoryList(self.cashFlow)
@@ -73,7 +88,7 @@ class Budget:
                 sum = sum + float(rows[1])
         return sum
         
-b = Budget()
+b = CashFlow()
 
 while True:
     print('-- Budget app --\n' + 

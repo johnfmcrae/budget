@@ -1,27 +1,5 @@
-﻿Date,Amount,Category,Location,Shared,Description
-2022-05-29,21.50,grocery,Daughters,y,
-2022-05-29,19.95,alcohol,LCBO,n,wine
-2022-05-29,21.29,grocery,Food Basics,y,
-2022-05-29,77.99,restaurant,Atomica,n,with Naz
-2022-05-31,7.49,relationship,Mio Gelato,n,two year anniversary
-2022-05-31,113.39,relationship,Rivermill,n,two year anniversary
-2022-06-04,25.14,grocery,Cookes,y,olive oil
-2022-06-04,25.78,food and drink,Cookes,n,mustard and chocolate
-2022-06-04,66.58,grocery,Tara Foods,y,
-2022-06-04,4.38,home,Tara Foods,y,
-2022-06-04,16.60,personal care,Tara Foods,n,
-2022-06-04,35.03,personal care,Hair of the Dog,n,beard trim
-2022-06-04,29.48,grocery,Quatrocchis,y,
-2022-06-04,21.71,home,Harlowe Green,y,cleaning spray and bottle
-2022-06-05,63.14,stationary,Staples,n,ink and paper
-2022-06-05,15.82,personal care,UNDR for Men,n,beard shampoo
-2022-06-05,75.69,cat,petvalu,y,litter and food
-2022-06-05,44.98,grocery,Loblaws,y,
-2022-06-05,44.60,home,Loblaws,y,
-2022-06-07,19.20,photography,Camera Kingston,n,film development
-2022-06-07,22.58,misc,Stokes,n,B day gift for Clare
-2022-06-08,5.00,coffee,Elm,n,flat white
-2022-06-08,1.88,food and drink,Tim Hortons,n,muffin
-2022-06-04,7.85,misc,Minotaur,n,card for Clare
-2022-06-09,128.82,coffee,Eight Ounce,n,V60 and Coffee Atlas
-2022-06-09,16.27,music,Bandcamp,n,Felice Brothers From Dreams to Dust
+﻿Date,Amount,Primary Category,Secondary Category,Location,Shared,Description,
+2022-05-29,19.95,Spending,alcohol,LCBO,n,wine,
+2022-05-29,21.5,Living Expenses,grocery,Daughters,y,
+2022-05-29,21.29,Living Expenses,grocery,Food Basics,y,
+2022-05-29,77.99,Spending,restaurant,Atomica,n,with Naz,

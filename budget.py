@@ -26,7 +26,7 @@ import itertools
     methods:
     - read budget csv
     - list primary categories
-    - list secondary categories
+    - list secondary categories`
     - sum primary category goals
     - diff categories with cash flow
 """
@@ -65,19 +65,20 @@ class CashFlow:
     def sumShared(self):
         sum = 0.0
         for rows in self.cashFlow:
-            if rows[4] == 'y':
+            if rows[5] == 'y':
                 sum = sum + float(rows[1])
         return sum
    
     def sumNotShared(self):
         sum = 0.0
         for rows in self.cashFlow:
-            if rows[4] == 'n':
+            if rows[5] == 'n':
                 sum = sum + float(rows[1])
         return sum
 
     def sumByCategory(self):
         print('Choose category:\n')
+        # add index using enumerate()
         for cat in self.categories:
             print(cat)
         catChoice = input()

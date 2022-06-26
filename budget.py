@@ -17,6 +17,7 @@
     - read budget
 """
 import csv
+import enum
 import itertools
 
 """
@@ -68,30 +69,14 @@ class Budget:
 class CashFlow:
     def __init__(self) -> None:
         self.cashFlow = self.readCash('Cash-flow-2022-05-29-to-2022-07-02.csv')
-        self.categories = makeCategoryList(self.cashFlow,2)
+        self.primaryCategories = makeCategoryList(self.cashFlow,2)
+        self.secondaryCategories = makeCategoryList(self.cashFlow,3)
 
     def readCash(self, input):
         with open(input, newline='',encoding='utf-8-sig') as f:
             reader = csv.reader(f)
             data = list(reader)
         return data
-   
-    #cashFlow = readCash('Cash-flow-2022-05-29-to-2022-07-02.csv')
-
-    def makeCategoryList(self, cashFlow):
-        cats = []
-        # use itertools to loop from from the second row onwards
-        for rows in itertools.islice(cashFlow, 1, None):
-            exists = False
-            # check if category is in list
-            for items in cats:
-                if items == rows[2]:
-                    exists = True
-            if not exists:
-                cats.append(rows[2])
-        return sorted(cats)
-
-    #categories = makeCategoryList(cashFlow)
 
     def sumShared(self):
         sum = 0.0
@@ -107,29 +92,47 @@ class CashFlow:
                 sum = sum + float(rows[1])
         return sum
 
-    def sumByCategory(self):
+    def sumByCategory(self,catList,rowIdx):
         print('Choose category:\n')
         # add index using enumerate()
-        for cat in self.categories:
-            print(cat)
-        catChoice = input()
+        for idx, cat in enumerate(catList):
+            print(str(idx + 1) + ". " + cat, end = "\t")
+        print("\n")
+        catChoice = catList(int(input()) - 1)
         # sum values
         sum = 0.0
         for rows in self.cashFlow:
-            if rows[2] == catChoice:
+            if rows[rowIdx] == catChoice:
                 sum = sum + float(rows[1])
-        return sum
+        return catChoice, sum
+
         
 b = CashFlow()
 
-def userInterface():
-    print('\n=================== BUDGET CALCULATOR ===================\n\n' + 
-        '1. Choose files   2. Display files   3. Show sums  0. Exit')
-    menuChoice = input()
-    if int(menuChoice) == 0:
-        return False
-    else:
-        return False
+class userInterface():
+    def __init__(self,Budget,CashFlow) -> None:
+        self.budget = Budget
+        self.cash   = CashFlow
+
+    def homePage():
+        print('\n=================== BUDGET CALCULATOR ===================\n\n' + 
+            '1. Choose files   2. Display files   3. Show sums  0. Exit')
+        menuChoice = input()
+        if int(menuChoice) == 0:
+            return False
+        elif int(menuChoice) == 3:
+            pass # sumPage
+        else:
+            return False
+
+    def sumPage():
+        print('\n------------------------ Show Sums ------------------------\n\n' + 
+            '1. Sum total cash flow  2. Sum by primary category  3. Sum by secondary category')
+        menuChoice = input()
+        if int(menuChoice) == 1:
+            pass
+        
+        
 
 
 runUI = True

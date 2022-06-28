@@ -60,11 +60,21 @@ cashPrimaryCat     = makeCategoryList(cashData,  2)
 cashSecondaryCat   = makeCategoryList(cashData,  3)
 
 ''' Sum by category '''
-budgetPrimarySum = sumByCategory(budgetData,budgetPrimaryCat,1,0)
-cashPrimarySum   = sumByCategory(cashData,cashPrimaryCat,2,1)
-cashSecondarySum = sumByCategory(cashData,cashSecondaryCat,3,1)
+budgetPrimarySum   = sumByCategory(budgetData,budgetPrimaryCat,1,0)
+budgetSecondarySum = sumByCategory(budgetData,budgetPrimaryCat,2,0)
+cashPrimarySum     = sumByCategory(cashData,cashPrimaryCat,2,1)
+cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,3,1)
 
 ''' diff by category '''
+# diff = budget sum - cash sum
+# level indicates primary or secondary category
+def diffByCategory(cash,budget,cashList,budgetList,level):
+    # loop over cash categories
+    for categories in cashList:
+        pass
+# find same category in budget
+# if category does not exist, add to a misc or unaccounted for category
+# diff
 
 ''' print data to csv '''
 

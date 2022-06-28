@@ -34,7 +34,7 @@ def sumByCategory(data,categoryList,categoryCol,valueCol):
         for rows in data:
             if rows[categoryCol] == category:
                 sum = sum + float(rows[valueCol])
-        categorySums.append(sum)
+        categorySums.append([category,sum])
     return categorySums
 
 ''' File paths '''
@@ -61,20 +61,28 @@ cashSecondaryCat   = makeCategoryList(cashData,  3)
 
 ''' Sum by category '''
 budgetPrimarySum   = sumByCategory(budgetData,budgetPrimaryCat,1,0)
-budgetSecondarySum = sumByCategory(budgetData,budgetPrimaryCat,2,0)
+budgetSecondarySum = sumByCategory(budgetData,budgetSecondaryCat,2,0)
 cashPrimarySum     = sumByCategory(cashData,cashPrimaryCat,2,1)
 cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,3,1)
 
 ''' diff by category '''
 # diff = budget sum - cash sum
-# level indicates primary or secondary category
-def diffByCategory(cash,budget,cashList,budgetList,level):
-    # loop over cash categories
-    for categories in cashList:
-        pass
-# find same category in budget
-# if category does not exist, add to a misc or unaccounted for category
-# diff
+def diffCashBudget(cashSum,budgetSum):
+    diffList = []
+    extraEntry = False
+    diff = 0
+    for idx, entry in enumerate(cashSum):
+        if len(budgetSum) < idx - 1:
+            if entry[0] == budgetSum[idx][0]:
+                diff = entry[1] - budgetSum[idx][1]
+            diffList.append([entry[0],diff])
+        else:
+            diff = diff + entry[1]
+    if extraEntry == True:
+        diffList.append(['Unaccounted for',diff])
+    return diffList
+        
+diffPrimary = diffCashBudget(cashPrimarySum,budgetPrimarySum)
 
 ''' print data to csv '''
 

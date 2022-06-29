@@ -69,8 +69,6 @@ cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,    3,1)
 ''' diff by category '''
 def diffCashBudget(cashSum,budgetSum):
     diffList = []
-    extraEntry = False
-    diff = 0
     extra = 0
     for entry in cashSum:
         # filter budget sum, casefold() ignores string case
@@ -78,15 +76,27 @@ def diffCashBudget(cashSum,budgetSum):
         if budgetEntry == []:
             extra = extra + entry[1]
         else:
-            diffList.append([entry[0],budgetEntry[0][1] - entry[1]])
+            diffList.append([entry[0],budgetEntry[0][1],entry[1],budgetEntry[0][1] - entry[1]])
     if extra != 0:
-        diffList.append(['Unaccounted for',extra])
+        diffList.append(['Unaccounted for',extra,'',''])
     return diffList
         
 diffPrimary   = diffCashBudget(cashPrimarySum,  budgetPrimarySum)
 diffSecondary = diffCashBudget(cashSecondarySum,budgetSecondarySum)
 
 ''' print data to csv '''
+# category, budget, spent, diff
+outputCSVname = 'Budget-diff.csv'
+with open(outputCSVname, 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
+    # write primary categories
+    writer.writerow(['Primary Categories'])
+    writer.writerow(['Category','Budget','Spent','Diff'])
+    writer.writerows(diffPrimary)
+    writer.writerow('')
+    writer.writerow(['Secondary Categories'])
+    writer.writerow(['Category','Budget','Spent','Diff'])
+    writer.writerows(diffSecondary)
 
 # for debug
 pass

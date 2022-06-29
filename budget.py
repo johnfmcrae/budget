@@ -38,8 +38,23 @@ def sumByCategory(data,categoryList,categoryCol,valueCol):
         #categorySums = categorySums + (category,sum)
     return categorySums
 
+def diffCashBudget(cashSum,budgetSum):
+    diffList = []
+    extra = 0
+    for entry in cashSum:
+        # filter budget sum, casefold() ignores string case
+        budgetEntry = list(filter(lambda e: e[0].casefold() == entry[0].casefold(), budgetSum))
+        if budgetEntry == []:
+            extra = extra + entry[1]
+        else:
+            diffList.append([entry[0],budgetEntry[0][1],entry[1],budgetEntry[0][1] - entry[1]])
+    if extra != 0:
+        diffList.append(['Unaccounted for',extra,'',''])
+    return diffList
+
 ''' File paths '''
 # file paths
+# TO DO: make these a user input
 budgetFile = 'Budget-2022-07.csv'
 cashFile   = 'Cash-flow-2022-05-29-to-2022-07-02.csv'
 
@@ -66,27 +81,20 @@ budgetSecondarySum = sumByCategory(budgetData,budgetSecondaryCat,2,0)
 cashPrimarySum     = sumByCategory(cashData,cashPrimaryCat,      2,1)
 cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,    3,1)
 
-''' diff by category '''
-def diffCashBudget(cashSum,budgetSum):
-    diffList = []
-    extraEntry = False
-    diff = 0
-    extra = 0
-    for entry in cashSum:
-        # filter budget sum, casefold() ignores string case
-        budgetEntry = list(filter(lambda e: e[0].casefold() == entry[0].casefold(), budgetSum))
-        if budgetEntry == []:
-            extra = extra + entry[1]
-        else:
-            diffList.append([entry[0],budgetEntry[0][1] - entry[1]])
-    if extra != 0:
-        diffList.append(['Unaccounted for',extra])
-    return diffList
-        
+''' diff by category '''        
 diffPrimary   = diffCashBudget(cashPrimarySum,  budgetPrimarySum)
 diffSecondary = diffCashBudget(cashSecondarySum,budgetSecondarySum)
 
 ''' print data to csv '''
-
-# for debug
-pass
+# category, budget, spent, diff
+outputCSVname = 'Budget-diff.csv'
+with open(outputCSVname, 'w', encoding='UTF8', newline='') as f:
+    writer = csv.writer(f)
+    # write primary categories
+    writer.writerow(['Primary Categories'])
+    writer.writerow(['Category','Budget','Spent','Diff'])
+    writer.writerows(diffPrimary)
+    writer.writerow('')
+    writer.writerow(['Secondary Categories'])
+    writer.writerow(['Category','Budget','Spent','Diff'])
+    writer.writerows(diffSecondary)

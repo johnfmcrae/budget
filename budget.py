@@ -81,7 +81,7 @@ budgetSecondarySum = sumByCategory(budgetData,budgetSecondaryCat,2,0)
 cashPrimarySum     = sumByCategory(cashData,cashPrimaryCat,      2,1)
 cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,    3,1)
 
-''' diff by category '''        
+''' diff by category '''
 diffPrimary   = diffCashBudget(cashPrimarySum,  budgetPrimarySum)
 diffSecondary = diffCashBudget(cashSecondarySum,budgetSecondarySum)
 

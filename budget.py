@@ -67,22 +67,28 @@ cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,3,1)
 
 ''' diff by category '''
 # diff = budget sum - cash sum
+# TO DO
+# loop over cash sum then search budget sum to get diff
 def diffCashBudget(cashSum,budgetSum):
     diffList = []
     extraEntry = False
     diff = 0
+    extra = 0
     for idx, entry in enumerate(cashSum):
-        if len(budgetSum) < idx - 1:
+        # ensure we are not exceeding budget list length
+        if idx < len(budgetSum):
             if entry[0] == budgetSum[idx][0]:
-                diff = entry[1] - budgetSum[idx][1]
+                diff = budgetSum[idx][1] - entry[1]
             diffList.append([entry[0],diff])
         else:
-            diff = diff + entry[1]
+            extra = extra + entry[1]
+            extraEntry = True
     if extraEntry == True:
-        diffList.append(['Unaccounted for',diff])
+        diffList.append(['Unaccounted for',extra])
     return diffList
         
-diffPrimary = diffCashBudget(cashPrimarySum,budgetPrimarySum)
+diffPrimary   = diffCashBudget(cashPrimarySum,budgetPrimarySum)
+diffSecondary = diffCashBudget(cashSecondarySum,budgetSecondarySum)
 
 ''' print data to csv '''
 

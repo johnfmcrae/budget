@@ -35,6 +35,7 @@ def sumByCategory(data,categoryList,categoryCol,valueCol):
             if rows[categoryCol] == category:
                 sum = sum + float(rows[valueCol])
         categorySums.append([category,sum])
+        #categorySums = categorySums + (category,sum)
     return categorySums
 
 ''' File paths '''
@@ -60,34 +61,29 @@ cashPrimaryCat     = makeCategoryList(cashData,  2)
 cashSecondaryCat   = makeCategoryList(cashData,  3)
 
 ''' Sum by category '''
-budgetPrimarySum   = sumByCategory(budgetData,budgetPrimaryCat,1,0)
+budgetPrimarySum   = sumByCategory(budgetData,budgetPrimaryCat,  1,0)
 budgetSecondarySum = sumByCategory(budgetData,budgetSecondaryCat,2,0)
-cashPrimarySum     = sumByCategory(cashData,cashPrimaryCat,2,1)
-cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,3,1)
+cashPrimarySum     = sumByCategory(cashData,cashPrimaryCat,      2,1)
+cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,    3,1)
 
 ''' diff by category '''
-# diff = budget sum - cash sum
-# TO DO
-# loop over cash sum then search budget sum to get diff
 def diffCashBudget(cashSum,budgetSum):
     diffList = []
     extraEntry = False
     diff = 0
     extra = 0
-    for idx, entry in enumerate(cashSum):
-        # ensure we are not exceeding budget list length
-        if idx < len(budgetSum):
-            if entry[0] == budgetSum[idx][0]:
-                diff = budgetSum[idx][1] - entry[1]
-            diffList.append([entry[0],diff])
-        else:
+    for entry in cashSum:
+        # filter budget sum
+        budgetEntry = list(filter(lambda e: e[0] == entry[0], budgetSum))
+        if budgetEntry == []:
             extra = extra + entry[1]
-            extraEntry = True
-    if extraEntry == True:
+        else:
+            diffList.append([entry[0],budgetEntry[0][1] - entry[1]])
+    if extra != 0:
         diffList.append(['Unaccounted for',extra])
     return diffList
         
-diffPrimary   = diffCashBudget(cashPrimarySum,budgetPrimarySum)
+diffPrimary   = diffCashBudget(cashPrimarySum,  budgetPrimarySum)
 diffSecondary = diffCashBudget(cashSecondarySum,budgetSecondarySum)
 
 ''' print data to csv '''

@@ -73,8 +73,8 @@ def diffCashBudget(cashSum,budgetSum):
     diff = 0
     extra = 0
     for entry in cashSum:
-        # filter budget sum
-        budgetEntry = list(filter(lambda e: e[0] == entry[0], budgetSum))
+        # filter budget sum, casefold() ignores string case
+        budgetEntry = list(filter(lambda e: e[0].casefold() == entry[0].casefold(), budgetSum))
         if budgetEntry == []:
             extra = extra + entry[1]
         else:

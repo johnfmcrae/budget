@@ -1,7 +1,7 @@
 Amount,Primary Category,Secondary Category
 4300,Pay,Total
-400,Living Expenses,Groceries
-60,Living Expenses,Home products
+400,Living Expenses,Grocery
+60,Living Expenses,Home
 120,Living Expenses,Home improvement
 40,Living Expenses,Personal care
 100,Living Expenses,Cleaner
@@ -30,12 +30,12 @@ Amount,Primary Category,Secondary Category
 30,Spending,Books
 20,Spending,Stationary
 40,Spending,Food and drink
-120,Spending,Restaurants and takeout
+120,Spending,Restaurant
 150,Spending,Clothing
 40,Spending,Coffee
 60,Spending,Photography
 100,Spending,Misc
 100,Relationship,Naz cash
-60,Relationship,Naz gifts
+60,Relationship,Naz gift
 100,Relationship,Date budget
 200,Relationship,Travel

@@ -1,15 +1,8 @@
 '''
-    budget.py calculates budget information
-    The inputs to the budget script are a budget spreadsheet in csv format
-    and a cash flow spreadsheet, also in csv format
-
-    Inputs:
-    - budget csv
-    - cash flow csv
-
-    Output:
-    - sum and diff csv
+    sumCash does the summing operation used in budget and prints
+    the result to a csv without doing the diffs performed in budget.py
 '''
+
 import csv
 import itertools
 import os
@@ -40,33 +33,12 @@ def sumByCategory(data,categoryList,categoryCol,valueCol):
         #categorySums = categorySums + (category,sum)
     return categorySums
 
-def diffCashBudget(cashSum,budgetSum):
-    diffList = []
-    extra = 0
-    for entry in cashSum:
-        # filter budget sum, casefold() ignores string case
-        budgetEntry = list(filter(lambda e: e[0].casefold() == entry[0].casefold(), budgetSum))
-        if budgetEntry == []:
-            extra = extra + entry[1]
-        else:
-            diffList.append([entry[0],budgetEntry[0][1],entry[1],budgetEntry[0][1] - entry[1]])
-    if extra != 0:
-        diffList.append(['Unaccounted for',extra,'',''])
-    return diffList
-
 ''' File paths '''
 localFile = os.listdir()
 csvList = []
-# sort csvs
 for item in localFile:
     if item.endswith('.csv'):
         csvList.append(item)
-
-print("Choose budget file:")
-# choose a file
-for idx, item in enumerate(csvList):
-    print(str(idx +  1) + ". " + str(item))
-budgetFile = csvList[int(input()) - 1]
 
 print("Choose cash flow file:")
 # choose a file
@@ -74,44 +46,31 @@ for idx, item in enumerate(csvList):
     print(str(idx +  1) + ". " + str(item))
 cashFile = csvList[int(input()) - 1]
 
-''' Read files '''
-# read budget
-with open(budgetFile, newline='',encoding='utf-8-sig') as f:
-    reader = csv.reader(f)
-    budgetData = list(reader)
-
+''' Read file '''
 # read cash flow
 with open(cashFile, newline='',encoding='utf-8-sig') as f:
     reader = csv.reader(f)
     cashData = list(reader)
 
 ''' Read categories '''
-budgetPrimaryCat   = makeCategoryList(budgetData,1)
-budgetSecondaryCat = makeCategoryList(budgetData,2)
 cashPrimaryCat     = makeCategoryList(cashData,  2)
 cashSecondaryCat   = makeCategoryList(cashData,  3)
 
 ''' Sum by category '''
-budgetPrimarySum   = sumByCategory(budgetData,budgetPrimaryCat,  1,0)
-budgetSecondarySum = sumByCategory(budgetData,budgetSecondaryCat,2,0)
 cashPrimarySum     = sumByCategory(cashData,cashPrimaryCat,      2,1)
 cashSecondarySum   = sumByCategory(cashData,cashSecondaryCat,    3,1)
 
-''' diff by category '''
-diffPrimary   = diffCashBudget(cashPrimarySum,  budgetPrimarySum)
-diffSecondary = diffCashBudget(cashSecondarySum,budgetSecondarySum)
-
 ''' print data to csv '''
 # category, budget, spent, diff
-outputCSVname = 'Budget-diff-' + datetime.today().strftime('%Y-%m-%d') + '.csv'
+outputCSVname = 'Cash-flow-sums-' + datetime.today().strftime('%Y-%m-%d') + '.csv'
 with open(outputCSVname, 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
     # write primary categories
     writer.writerow(['Primary Categories'])
-    writer.writerow(['Category','Budget','Spent','Diff'])
-    writer.writerows(diffPrimary)
+    writer.writerow(['Category','Sum'])
+    writer.writerows(cashPrimarySum)
     writer.writerow('')
     writer.writerow(['Secondary Categories'])
-    writer.writerow(['Category','Budget','Spent','Diff'])
-    writer.writerows(diffSecondary)
-print("Diff written to:" + outputCSVname)
+    writer.writerow(['Category','Sum'])
+    writer.writerows(cashSecondarySum)
+print("Sums written to:" + outputCSVname)

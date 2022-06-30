@@ -12,6 +12,8 @@
 '''
 import csv
 import itertools
+import os
+from datetime import datetime
 
 ''' reused functions '''
 def makeCategoryList(array,index):
@@ -53,10 +55,24 @@ def diffCashBudget(cashSum,budgetSum):
     return diffList
 
 ''' File paths '''
-# file paths
-# TO DO: make these a user input
-budgetFile = 'Budget-2022-07.csv'
-cashFile   = 'Cash-flow-2022-05-29-to-2022-07-02.csv'
+localFile = os.listdir()
+csvList = []
+# sort csvs
+for item in localFile:
+    if item.endswith('.csv'):
+        csvList.append(item)
+
+print("Choose budget file:")
+# choose a file
+for idx, item in enumerate(csvList):
+    print(str(idx +  1) + ". " + str(item))
+budgetFile = csvList[int(input()) - 1]
+
+print("Choose cash flow file:")
+# choose a file
+for idx, item in enumerate(csvList):
+    print(str(idx +  1) + ". " + str(item))
+cashFile = csvList[int(input()) - 1]
 
 ''' Read files '''
 # read budget
@@ -87,7 +103,7 @@ diffSecondary = diffCashBudget(cashSecondarySum,budgetSecondarySum)
 
 ''' print data to csv '''
 # category, budget, spent, diff
-outputCSVname = 'Budget-diff.csv'
+outputCSVname = 'Budget-diff-' + datetime.today().strftime('%Y-%m-%d') + '.csv'
 with open(outputCSVname, 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
     # write primary categories
@@ -98,3 +114,4 @@ with open(outputCSVname, 'w', encoding='UTF8', newline='') as f:
     writer.writerow(['Secondary Categories'])
     writer.writerow(['Category','Budget','Spent','Diff'])
     writer.writerows(diffSecondary)
+print("Wrote diff to:" + outputCSVname)
